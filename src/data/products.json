@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Camiseta Racing",
+    "description": "Camiseta oficial del equipo de carreras, 100% algodón.",
+    "code": "CAME-RACING-001",
+    "price": 25.99,
+    "status": true,
+    "stock": 100,
+    "category": "Ropa",
+    "thumbnails": [
+      "https://example.com/images/camiseta_racing_1.jpg",
+      "https://example.com/images/camiseta_racing_2.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Gorra Racing",
+    "description": "Gorra oficial del equipo de carreras, ajuste cómodo.",
+    "code": "GORRA-RACING-002",
+    "price": 15.99,
+    "status": true,
+    "stock": 50,
+    "category": "Accesorios",
+    "thumbnails": [
+      "https://example.com/images/gorra_racing_1.jpg",
+      "https://example.com/images/gorra_racing_2.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Nuevo Producto",
+    "description": "Descripción del nuevo producto.",
+    "code": "NUEVO-PROD-003",
+    "price": 29.99,
+    "stock": 75,
+    "category": "Nuevos",
+    "thumbnails": [],
+    "status": true
+  }
+]
