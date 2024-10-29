@@ -37,5 +37,16 @@
     "category": "Nuevos",
     "thumbnails": [],
     "status": true
+  },
+  {
+    "id": 4,
+    "title": "Gorra river",
+    "description": "Gorra negra con el logo de river.",
+    "code": "GORRA-RIVER-001",
+    "price": 29.99,
+    "stock": 75,
+    "category": "Ropa",
+    "thumbnails": [],
+    "status": true
   }
 ]

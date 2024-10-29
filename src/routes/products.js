@@ -11,11 +11,22 @@ router.get('/', async (req, res) => {
     res.json(limit ? products.slice(0, limit) : products);
 });
 
-router.get('/:pid', async (req, res) => {
-    const product = await ProductManager.getProductById(req.params.pid);
-    if (product) {
-        res.json(product);
-    } else {
+router.get('/:id', async (req, res) => {
+    let {id} = req.params
+    id = Number(id)
+    if(isNaN(id)){
+        res.setHeader('Content-Type','application/json');
+        return res.status(400).json({error:`id debe ser numérico`})
+    }
+    try{
+        let producto = await ProductManager.getProductById(id)
+        if(!producto){
+            res.setHeader('Content-Type','application/json');
+            return res.status(404).json({error:`No existen productos con id ${id}`})
+        }
+        res.setHeader('Content-Type','application/json');
+        return res.status(200).json({producto});
+    } catch{
         res.status(404).send('Producto no encontrado');
     }
 });

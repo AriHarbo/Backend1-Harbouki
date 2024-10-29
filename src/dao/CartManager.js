@@ -11,9 +11,7 @@ class CartManager {
         if(fs.existsSync(this.#path)){
             return JSON.parse(await fs.promises.readFile(this.#path, 'utf-8')); 
         }
-        else{
             return [];
-        }
     }
 
     static async #saveFile(data = ''){
@@ -36,7 +34,6 @@ class CartManager {
             id,
             products: []
         }
-
         carts.push(newCart);
         await this.#saveFile(JSON.stringify(carts, null, 2));
 
@@ -55,7 +52,10 @@ class CartManager {
         if (!cart) {
             throw new Error('Carrito no encontrado');
         }
-
+        if(pid === -1){
+            throw new Error('Producto no existe');
+        }
+        
         const productInCart = cart.products.find(p => p.product === pid);
 
         if (productInCart) {
