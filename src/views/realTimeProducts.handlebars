@@ -1,0 +1,51 @@
+<h1>Lista de Productos en Tiempo Real</h1>
+    <ul id="product-list"></ul>
+
+    <form id="product-form">
+        <input type="text" id="title" placeholder="Nombre del producto" required>
+        <input type="number" id="price" placeholder="Precio del producto" required>
+        <button type="submit">Agregar Producto</button>
+    </form>
+
+    <div>
+        <input type="number" id="delete-id" placeholder="ID del producto a eliminar" required>
+        <button id="delete-button">Eliminar Producto</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('products', (products) => {
+            console.log('Productos recibidos:', products); // Depuración para ver los productos recibidos
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = ''; 
+
+            if (Array.isArray(products)) {
+                products.forEach(product => {
+                    const li = document.createElement('li');
+                    li.textContent = `${product.title} - $${product.price}`;
+                    productList.appendChild(li);
+                });
+            } else {
+                console.error('Los productos no son un arreglo:', products);
+            }
+        });
+
+        document.getElementById('product-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const price = document.getElementById('price').value;
+            socket.emit('newProduct', { title, price }); 
+            document.getElementById('title').value = ''; 
+            document.getElementById('price').value = ''; 
+        });
+
+        document.getElementById('delete-button').addEventListener('click', () => {
+        const productId = document.getElementById('delete-id').value;
+        if (productId) {
+            socket.emit('deleteProduct', parseInt(productId, 10));
+            document.getElementById('delete-id').value = '';
+        }
+    });
+    </script>

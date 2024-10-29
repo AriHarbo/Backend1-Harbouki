@@ -14,31 +14,6 @@
     ]
   },
   {
-    "id": 2,
-    "title": "Gorra Racing",
-    "description": "Gorra oficial del equipo de carreras, ajuste cómodo.",
-    "code": "GORRA-RACING-002",
-    "price": 15.99,
-    "status": true,
-    "stock": 50,
-    "category": "Accesorios",
-    "thumbnails": [
-      "https://example.com/images/gorra_racing_1.jpg",
-      "https://example.com/images/gorra_racing_2.jpg"
-    ]
-  },
-  {
-    "id": 3,
-    "title": "Nuevo Producto",
-    "description": "Descripción del nuevo producto.",
-    "code": "NUEVO-PROD-003",
-    "price": 29.99,
-    "stock": 75,
-    "category": "Nuevos",
-    "thumbnails": [],
-    "status": true
-  },
-  {
     "id": 4,
     "title": "Gorra river",
     "description": "Gorra negra con el logo de river.",
@@ -47,6 +22,40 @@
     "stock": 75,
     "category": "Ropa",
     "thumbnails": [],
+    "status": true
+  },
+  {
+    "id": 5,
+    "title": "Gorra boca",
+    "price": "2",
+    "status": true
+  },
+  {
+    "id": 6,
+    "title": "Camiseta de River",
+    "description": "Camiseta titular de River",
+    "code": "RIV-001",
+    "price": 100,
+    "stock": 10,
+    "category": "Ropa",
+    "thumbnails": [
+      "url1",
+      "url2"
+    ],
+    "status": true
+  },
+  {
+    "id": 7,
+    "title": "Camiseta de Boca",
+    "description": "Camiseta titular de Boca",
+    "code": "BOC-001",
+    "price": 100,
+    "stock": 10,
+    "category": "Ropa",
+    "thumbnails": [
+      "url1",
+      "url2"
+    ],
     "status": true
   }
 ]

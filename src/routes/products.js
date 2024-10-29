@@ -55,8 +55,14 @@ router.put('/:pid', async (req, res) => {
 });
 
 router.delete('/:pid', async (req, res) => {
+    let {pid} = req.params
+    pid = Number(pid)
+    if(isNaN(pid)){
+        res.setHeader('Content-Type','application/json');
+        return res.status(400).json({error:`id debe ser numérico`})
+    }
     try {
-        await ProductManager.deleteProduct(req.params.pid);
+        await ProductManager.deleteProduct(pid);
         res.send('Producto eliminado');
     } catch (error) {
         res.status(404).send(error.message);
