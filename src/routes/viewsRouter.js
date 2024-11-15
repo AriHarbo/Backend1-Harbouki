@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const ProductManager = require("../dao/ProductManager");
+const ProductManagerDB = require("../dao/ProductManagerDB.js");
 
 router.get('/home', async (req, res) => {
-    const products = await ProductManager.getProducts(); // Obtener productos
+    const products = await ProductManagerDB.getProductos(); // Obtener productos
     res.render('home', { products });
 });
 

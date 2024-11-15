@@ -3,6 +3,7 @@ const {engine} = require("express-handlebars")
 const http = require("http")
 const { Server } = require("socket.io")
 const ProductManager =  require("./dao/ProductManager")
+const mongoose = require("mongoose")
 
 
 
@@ -28,6 +29,34 @@ app.set("views", "./src/views")
 // Vistas
 app.use('/', viewsRouter)
 
+// Sevidor
+const PORT = 8080;
+
+httpServer.listen(PORT, ()=>{
+    console.log(`Servidor escuchando en el puerto: ${PORT}`);
+})
+
+// Conectar con la DB
+
+const conectarDB = async()=>{
+    try{
+        await mongoose.connect(
+            "mongodb+srv://arielharbo219:Y7yeFZSYgWfwvg6a@cluster0.vpzhz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+            {
+                dbName: "ecommerce"
+            }
+        )
+        console.log("DB Online...")
+    }
+    catch(error){
+        console.log(`Error: ${error.message}`)
+    }
+}
+
+conectarDB()
+
+/* WEB SOCKET CON FILESYSTEM
+
 io.on("connection", async (socket)=>{
     console.log("Nueva conexion")
 
@@ -47,8 +76,5 @@ io.on("connection", async (socket)=>{
     })
 })
 
-const PORT = 8080;
+*/
 
-httpServer.listen(PORT, ()=>{
-    console.log(`Servidor escuchando en el puerto: ${PORT}`);
-})

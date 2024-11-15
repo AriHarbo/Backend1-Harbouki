@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Camiseta Racing",
     "description": "Camiseta oficial del equipo de carreras, 100% algodón.",
     "code": "CAME-RACING-001",
@@ -14,7 +13,6 @@
     ]
   },
   {
-    "id": 4,
     "title": "Gorra river",
     "description": "Gorra negra con el logo de river.",
     "code": "GORRA-RIVER-001",
@@ -25,13 +23,11 @@
     "status": true
   },
   {
-    "id": 5,
     "title": "Gorra boca",
     "price": "2",
     "status": true
   },
   {
-    "id": 6,
     "title": "Camiseta de River",
     "description": "Camiseta titular de River",
     "code": "RIV-001",
@@ -45,7 +41,6 @@
     "status": true
   },
   {
-    "id": 7,
     "title": "Camiseta de Boca",
     "description": "Camiseta titular de Boca",
     "code": "BOC-001",
