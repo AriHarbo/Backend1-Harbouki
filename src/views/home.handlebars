@@ -5,3 +5,15 @@
         <li>{{this.title}} - ${{this.price}}</li>
         {{/each}}
     </ul>
+<br>    
+{{#if hasPrevPage}}
+    <a href="/home/?page={{prevPage}}">Prev.Pág.</a>
+{{else}}
+    <a href="/home/?page={{prevPage}}" class="disabled">Prev.Pág.</a>
+{{/if}}
+<h3>{{page}}</h3>
+{{#if hasNextPage}}
+    <a href="/home/?page={{nextPage}}">Next.Pág.</a>
+{{else}}
+    <a href="/home/?page={{nextPage}}" class="disabled">Next.Pág.</a>
+{{/if}}

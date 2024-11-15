@@ -1,11 +1,10 @@
-const express = require("express")
-const {engine} = require("express-handlebars")
-const http = require("http")
-const { Server } = require("socket.io")
-const ProductManager =  require("./dao/ProductManager")
-const mongoose = require("mongoose")
-
-
+const express = require('express');
+const path = require('path');
+const { engine } = require('express-handlebars');
+const http = require('http');
+const { Server } = require('socket.io');
+const ProductManager = require('./dao/ProductManager');
+const mongoose = require('mongoose');
 
 const productsRouter = require('./routes/products');
 const cartsRouter = require('./routes/carts');
@@ -14,46 +13,41 @@ const viewsRouter = require('./routes/viewsRouter');
 const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
-
 app.use(express.json());
 // Rutas API
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-
 // handlebars
-app.engine("handlebars", engine())
-app.set("view engine", "handlebars")
-app.set("views", "./src/views")
-
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './src/views');
 
 // Vistas
-app.use('/', viewsRouter)
+app.use('/', viewsRouter);
 
 // Sevidor
 const PORT = 8080;
-
-httpServer.listen(PORT, ()=>{
+httpServer.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto: ${PORT}`);
-})
+});
 
 // Conectar con la DB
-
-const conectarDB = async()=>{
-    try{
+const conectarDB = async () => {
+    try {
         await mongoose.connect(
-            "mongodb+srv://arielharbo219:Y7yeFZSYgWfwvg6a@cluster0.vpzhz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+            'mongodb+srv://arielharbo219:Y7yeFZSYgWfwvg6a@cluster0.vpzhz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
             {
-                dbName: "ecommerce"
+                dbName: 'ecommerce',
             }
-        )
-        console.log("DB Online...")
+        );
+        console.log('DB Online...');
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
     }
-    catch(error){
-        console.log(`Error: ${error.message}`)
-    }
-}
+};
 
-conectarDB()
+conectarDB();
+
 
 /* WEB SOCKET CON FILESYSTEM
 

@@ -8,10 +8,17 @@ const  router=Router()
 
 router.get('/', async (req, res) => {
     try{
-        let limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-        let products = await ProductManagerDB.getProductos();
+        let {page, limit}=req.query
+
+        let products = await ProductManagerDB.getProductos(page, limit);
+        products={
+            products:products.docs, 
+            ...products   // spread
+        }
+        delete products.docs
+
         res.setHeader('Content-Type','application/json');
-        res.json(limit ? products.slice(0, limit) : products);
+        res.status(200).json(products)
     }
     catch(error){
         res.setHeader('Content-Type','application/json');

@@ -2,8 +2,9 @@ const { productosModelo } = require('./models/productos.model.js');
 
  class ProductManagerDB{
 
-    static async getProductos(){
-        return await productosModelo.find().lean()
+    static async getProductos(page=1, limit=10){
+        // return await productosModelo.find().lean()
+        return await productosModelo.paginate({},{limit, page, lean:true})
     }
 
     static async getProductoBy(filtro={}){
