@@ -2,6 +2,10 @@ const { carritoModelo } = require('./models/carrito.model.js');
 
 class CartManagerDB {
 
+    static async getCarts(){
+        return carritoModelo.find().lean()
+    }
+
     static async createCarrito(){
         let carritoNuevo = await carritoModelo.create({productos:[]})
         return carritoNuevo.toJSON()

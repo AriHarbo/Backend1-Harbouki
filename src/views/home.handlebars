@@ -1,19 +1,25 @@
 <h1 class="titulo">Lista de Productos</h1>
 <hr>
-    <ul>
-        {{#each products}}
-        <li>{{this.title}} - ${{this.price}}</li>
-        {{/each}}
-    </ul>
-<br>    
-{{#if hasPrevPage}}
-    <a href="/home/?page={{prevPage}}">Prev.Pág.</a>
-{{else}}
-    <a href="/home/?page={{prevPage}}" class="disabled">Prev.Pág.</a>
-{{/if}}
-<h3>{{page}}</h3>
-{{#if hasNextPage}}
-    <a href="/home/?page={{nextPage}}">Next.Pág.</a>
-{{else}}
-    <a href="/home/?page={{nextPage}}" class="disabled">Next.Pág.</a>
-{{/if}}
+<ul class="listado">
+    {{#each products}}
+    <li class="objetoLista">{{this.title}} - ${{this.price}} <a href="/product/{{this.id}}">Ver mas</a></li> 
+    {{/each}}
+</ul>
+<br>
+<div class="movimientoPag">
+        <!-- Enlace a la página anterior -->
+    {{#if hasPrevPage}}
+        <a href="/home?page={{prevPage}}&limit={{queryParams.limit}}&sort={{queryParams.sort}}&query={{queryParams.query}}">Prev.Pág.</a>
+    {{else}}
+        <a href="#" class="disabled">Prev.Pág.</a>
+    {{/if}}
+
+    <h3>{{page}}</h3>
+
+    <!-- Enlace a la página siguiente -->
+    {{#if hasNextPage}}
+        <a href="/home?page={{nextPage}}&limit={{queryParams.limit}}&sort={{queryParams.sort}}&query={{queryParams.query}}">Next.Pág.</a>
+    {{else}}
+        <a href="#" class="disabled">Next.Pág.</a>
+    {{/if}}
+</div>

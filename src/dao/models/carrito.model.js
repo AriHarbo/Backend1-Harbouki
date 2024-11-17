@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const productosModelo = require("./productos.model")
 
 const carritoModelo = mongoose.model(
     "carritos",
@@ -7,8 +8,15 @@ const carritoModelo = mongoose.model(
             productos: {
                 type: [
                     {
-                        id: String,
-                        cantidad: Number
+                        id: {
+                            type: mongoose.Schema.Types.ObjectId,  // Se utiliza ObjectId
+                            ref: 'productos',
+                            required: true
+                        },
+                        cantidad: {
+                            type: Number,
+                            required: true
+                        }
                     }
                 ]
             }
