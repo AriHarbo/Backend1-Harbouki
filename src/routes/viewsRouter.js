@@ -59,7 +59,7 @@ router.get('/product/:pid', async  (req, res) =>{
         res.status(400).json({message: 'El id del producto no es válido'})
     }
     if (!producto) {
-        return res.status(404).send("Producto no encontrado");
+        return res.status(404).json({error:"Producto no encontrado"});
     }
      try {
         res.render('productView', {
@@ -67,7 +67,7 @@ router.get('/product/:pid', async  (req, res) =>{
         });
     } catch (error) {
         console.error("Error al obtener el producto:", error);
-        res.status(500).send("Error interno del servidor");
+        res.status(500).json({error:"Error interno del servidor"});
     }
 })
 

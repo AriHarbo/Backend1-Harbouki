@@ -15,8 +15,8 @@ class CartManagerDB {
         return carritoModelo.findOne({_id: id})
     }
 
-    static async updateCarrito(id, carrito){
-        return await carritoModelo.updateOne({_id: id}, carrito, {new:true})
+    static async updateCarrito(id, aModificar){
+        return await carritoModelo.findByIdAndUpdate(id, aModificar, {new:true}).lean()
     }
 }
 

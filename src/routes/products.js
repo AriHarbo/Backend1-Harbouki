@@ -8,9 +8,23 @@ const  router=Router()
 
 router.get('/', async (req, res) => {
     try{
-        let {page, limit}=req.query
+        let {page, limit, sort, query, available}=req.query
+        sort = sort === 'asc' || sort === 'desc' ? sort : null;
+        query = query || null; // Si no hay query, será null
+        available = available === 'true' ? true : available === 'false' ? false : null;
 
-        let products = await ProductManagerDB.getProductos(page, limit);
+        const sortOption = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;
+        const filter = {};
+
+        if (query) {
+            filter.category = { $regex: query, $options: 'i' }; 
+        }
+    
+        if (available !== null) {
+            filter.stock = available ? { $gt: 0 } : { $lte: 0 }; 
+        }
+
+        let products = await ProductManagerDB.getProductos(page, limit,filter , sortOption);
         products={
             products:products.docs, 
             ...products   // spread
@@ -42,7 +56,7 @@ router.get('/:id', async (req, res) => {
         return res.status(200).json({producto});
     } catch{
         res.setHeader('Content-Type','application/json');
-        res.status(404).send('Producto no encontrado');
+        res.status(404).json({error:'Producto no encontrado'});
     }
 });
 
@@ -50,13 +64,13 @@ router.post('/', async (req, res) => {
     const { title, description, code, price, stock, category, thumbnails } = req.body;
 
     if (!title || !description || !code || !price || !stock || !category) {
-        return res.status(400).send('Faltan campos obligatorios');
+        return res.status(400).json({error:'Faltan campos obligatorios'});
     }
 
     try{
         let existe = await ProductManagerDB.getProductoByCode(code)
         if(existe){
-            return res.status(400).send('El producto ya existe')
+            return res.status(400).json({error:'El producto ya existe'})
         }
 
         const newProduct = await ProductManagerDB.createProducto({
@@ -86,7 +100,7 @@ router.put('/:pid', async (req, res) => {
         return res.status(200).json({updatedProduct});
     } catch (error) {
         res.setHeader('Content-Type','application/json');
-        res.status(404).send(error.message);
+        res.status(404).json({error: "Error al actualizar el producto"});
     }
 });
 
@@ -101,7 +115,7 @@ router.delete('/:pid', async (req, res) => {
         res.setHeader('Content-Type','application/json');
         return res.status(200).json({productoEliminado});
     } catch (error) {
-        res.status(404).send(error.message);
+        res.status(404).json({error: "No se pudo eliminar el producto"});
     }
 });
 

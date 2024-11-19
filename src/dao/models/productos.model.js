@@ -3,12 +3,12 @@ const paginate = require("mongoose-paginate-v2")
 
 const productosSchema = new mongoose.Schema(
     {
-        title: {
+        title: String,
+        description: String,
+        code: {
             type: String,
             unique: true
         },
-        description: String,
-        code: String,
         price: Number,
         status: {
             type: Boolean,

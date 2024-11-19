@@ -5,7 +5,7 @@ const carritoModelo = mongoose.model(
     "carritos",
     new mongoose.Schema(
         {
-            productos: {
+            products: {
                 type: [
                     {
                         id: {
@@ -13,7 +13,7 @@ const carritoModelo = mongoose.model(
                             ref: 'productos',
                             required: true
                         },
-                        cantidad: {
+                        quantity: {
                             type: Number,
                             required: true
                         }

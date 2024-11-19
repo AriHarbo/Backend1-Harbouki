@@ -26,10 +26,11 @@ app.set('views', './src/views');
 app.use('/', viewsRouter);
 
 // Sevidor
-const PORT = 8080;
-httpServer.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto: ${PORT}`);
+const port = 8080;
+httpServer.listen(port, () => {
+    console.log(`Servidor escuchando en el puerto: ${port}`);
 });
+
 
 // Conectar con la DB
 const conectarDB = async () => {

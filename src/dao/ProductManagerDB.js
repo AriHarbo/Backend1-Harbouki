@@ -17,7 +17,7 @@ const { productosModelo } = require('./models/productos.model.js');
     }
 
     static async getProductoBy(filtro={}){
-        return await productosModelo.findOne(filtro).lean()
+        return await productosModelo.findOne(filtro)
     }
 
     static async getProductoByCode(code=""){
