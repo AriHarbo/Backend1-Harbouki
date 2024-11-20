@@ -1,14 +1,15 @@
-const express = require('express');
-const path = require('path');
-const { engine } = require('express-handlebars');
-const http = require('http');
-const { Server } = require('socket.io');
-const ProductManager = require('./dao/ProductManager');
-const mongoose = require('mongoose');
+import express from 'express'
+import path from 'path'
+import { engine } from 'express-handlebars'
+import http from 'http'
+import { Server } from 'socket.io'
+import {ProductManager} from './dao/ProductManager.js'
+import mongoose from 'mongoose'
 
-const productsRouter = require('./routes/products');
-const cartsRouter = require('./routes/carts');
-const viewsRouter = require('./routes/viewsRouter');
+
+import {router as productsRouter} from './routes/products.js'
+import {router as cartsRouter} from'./routes/carts.js'
+import {router as viewsRouter} from './routes/viewsRouter.js'
 
 const app = express();
 const httpServer = http.createServer(app);

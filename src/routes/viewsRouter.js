@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const ProductManagerDB = require("../dao/ProductManagerDB.js");
-const { isValidObjectId }  = require("mongoose");
+import express from "express"
+import {ProductManagerDB} from "../dao/ProductManagerDB.js"
+import { isValidObjectId }  from "mongoose"
+
+export const router = express.Router();
 
 router.get('/home', async (req, res) => {
     let { page, limit, sort, query, available } = req.query;
@@ -53,7 +54,7 @@ router.get('/realtimeproducts',  (req, res) => {
 router.get('/product/:pid', async  (req, res) =>{
     const { pid } = req.params;
     const producto =  await ProductManagerDB.getProductoBy({ _id: pid });
-    console.log("esto es: ", producto)
+    
     if(!isValidObjectId(pid)){
         res.setHeader('Content-Type','application/json')
         res.status(400).json({message: 'El id del producto no es válido'})
@@ -70,5 +71,3 @@ router.get('/product/:pid', async  (req, res) =>{
         res.status(500).json({error:"Error interno del servidor"});
     }
 })
-
-module.exports = router;

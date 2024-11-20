@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs'
 
-class ProductManager{
+export class ProductManager{
     static #path = '';
 
     static setPath(filePath = ''){
@@ -77,5 +77,3 @@ class ProductManager{
         return true;
     }
 }
-
-module.exports = ProductManager;

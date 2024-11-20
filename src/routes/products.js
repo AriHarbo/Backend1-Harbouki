@@ -1,9 +1,9 @@
-const { Router } = require("express");
-const ProductManagerDB = require('../dao/ProductManagerDB.js');
-const { isValidObjectId }  = require("mongoose");
+import { Router } from "express"
+import {ProductManagerDB} from '../dao/ProductManagerDB.js'
+import { isValidObjectId }  from "mongoose"
 
 
-const  router=Router()
+export const  router=Router()
 
 
 router.get('/', async (req, res) => {
@@ -118,5 +118,3 @@ router.delete('/:pid', async (req, res) => {
         res.status(404).json({error: "No se pudo eliminar el producto"});
     }
 });
-
-module.exports = router;

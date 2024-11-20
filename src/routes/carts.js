@@ -1,12 +1,12 @@
-const { Router } = require("express");
-const CartManagerDB = require('../dao/CartManagerDB.js');
-const ProductManagerDB = require('../dao/ProductManagerDB.js');
-const mongoose = require("mongoose");
-const { isValidObjectId }  = require("mongoose");
-const { carritoModelo } = require("../dao/models/carrito.model.js");
-const { productosModelo} = require("../dao/models/productos.model.js");
+import { Router } from "express"
+import {CartManagerDB} from '../dao/CartManagerDB.js'
+import {ProductManagerDB} from '../dao/ProductManagerDB.js'
+import mongoose from "mongoose"
+import { isValidObjectId }  from "mongoose"
+import { carritoModelo } from "../dao/models/carrito.model.js"
+import { productosModelo} from "../dao/models/productos.model.js"
 
-const router = Router();
+export const router = Router();
 
 // POST / -> crear un nuevo carrito
 router.post('/', async (req, res) => {
@@ -143,7 +143,7 @@ router.delete('/:cid', async (req, res) => {
         res.status(400).json({message: 'El id del carrito no es válido'})
     }
     try{
-        carritoVacio = []
+        let carritoVacio = []
         let carrito = await CartManagerDB.getById(cid)
         carrito.products = carritoVacio;
         let carritoActualizado = await CartManagerDB.updateCarrito(cid, carrito);
@@ -211,7 +211,7 @@ router.put("/:cid/products/:pid", async (req, res) => {
         return res.status(400).json({ error: `id invalido...` });
     }
     try{
-        nuevaCantidad = await req.body.quantity;
+        let nuevaCantidad = await req.body.quantity;
         let carrito = await CartManagerDB.getById(cid);
         if (!carrito) {
             res.setHeader('Content-Type', 'application/json');
@@ -232,6 +232,3 @@ router.put("/:cid/products/:pid", async (req, res) => {
         res.status(404).json({error: "Error al actualizar un producto del carrito"});
     }
 })
-
-
-module.exports = router;

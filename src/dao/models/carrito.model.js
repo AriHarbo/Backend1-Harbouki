@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
-const productosModelo = require("./productos.model")
+import mongoose from "mongoose"
+import {productosModelo} from "./productos.model.js"
 
-const carritoModelo = mongoose.model(
+export const carritoModelo = mongoose.model(
     "carritos",
     new mongoose.Schema(
         {
@@ -26,5 +26,3 @@ const carritoModelo = mongoose.model(
         }
     )
 )
-
-module.exports = {carritoModelo} ;

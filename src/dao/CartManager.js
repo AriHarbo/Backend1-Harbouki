@@ -1,6 +1,6 @@
- const fs = require("fs");
+ import fs from "fs"
 
-class CartManager {
+export class CartManager {
     static #path = '';
 
     static setPath(filePath = ""){
@@ -70,5 +70,3 @@ class CartManager {
     }
 
 }
-
-module.exports = CartManager;

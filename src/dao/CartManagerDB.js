@@ -1,6 +1,6 @@
-const { carritoModelo } = require('./models/carrito.model.js');
+import { carritoModelo } from './models/carrito.model.js'
 
-class CartManagerDB {
+export class CartManagerDB {
 
     static async getCarts(){
         return carritoModelo.find().lean()
@@ -19,5 +19,3 @@ class CartManagerDB {
         return await carritoModelo.findByIdAndUpdate(id, aModificar, {new:true}).lean()
     }
 }
-
-module.exports = CartManagerDB;

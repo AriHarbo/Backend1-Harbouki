@@ -1,6 +1,6 @@
-const { productosModelo } = require('./models/productos.model.js');
+import { productosModelo } from './models/productos.model.js'
 
- class ProductManagerDB{
+ export class ProductManagerDB{
 
     static async getProductos(page=1, limit=10, filter = {}, sort = null){
         const options = {
@@ -17,7 +17,7 @@ const { productosModelo } = require('./models/productos.model.js');
     }
 
     static async getProductoBy(filtro={}){
-        return await productosModelo.findOne(filtro)
+        return await productosModelo.findOne(filtro).lean()
     }
 
     static async getProductoByCode(code=""){
@@ -37,5 +37,3 @@ const { productosModelo } = require('./models/productos.model.js');
         return await productosModelo.findByIdAndDelete(id).lean()
     }
 }
-
-module.exports = ProductManagerDB;
