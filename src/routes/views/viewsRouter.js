@@ -1,5 +1,5 @@
 import express from "express"
-import {ProductManagerDB} from "../dao/ProductManagerDB.js"
+import {ProductManagerDB} from "../../dao/ProductManagerDB.js"
 import { isValidObjectId }  from "mongoose"
 
 export const router = express.Router();
