@@ -1,4 +1,4 @@
-import { productosModelo } from './models/productos.model.js'
+import { productosModelo } from '../models/productos.model.js'
 
  export class ProductManagerDB{
 
@@ -25,7 +25,7 @@ import { productosModelo } from './models/productos.model.js'
     }
 
     static async createProducto(producto={}){
-        let nuevoProducto = await productosModelo.create(producto)
+        const nuevoProducto = await productosModelo.create(producto)
         return nuevoProducto.toJSON()
     }
 

@@ -1,4 +1,4 @@
-import { carritoModelo } from './models/carrito.model.js'
+import { carritoModelo } from '../models/carrito.model.js'
 
 export class CartManagerDB {
 
@@ -7,7 +7,7 @@ export class CartManagerDB {
     }
 
     static async createCarrito(){
-        let carritoNuevo = await carritoModelo.create({productos:[]})
+        const carritoNuevo = await carritoModelo.create({productos:[]})
         return carritoNuevo.toJSON()
     }
 

@@ -4,6 +4,8 @@ import http from 'http'
 import { Server } from 'socket.io'
 import mongoose from 'mongoose'
 import cookieParser from "cookie-parser"
+import session from "express-session"
+import MongoStore from 'connect-mongo'
 import dotenv from 'dotenv';
 
 
@@ -14,6 +16,7 @@ import cookiesRouter from './routes/api/cookies.js'
 import pathHandler from './middlewares/pathHandler.mid.js'
 import errorHandler from './middlewares/errorHandler.mid.js'
 import morgan from 'morgan'
+import sessionsRouter from './routes/api/sessions.js'
 
 dotenv.config();
 
@@ -33,8 +36,14 @@ app.set('views', './src/views');
 // Middlewares anteriores a las rutas
 app.use(express.json());
 app.use(morgan("dev"))
-app.use(cookieParser(process.env.SECRET_KEY))
-
+app.use(cookieParser(process.env.SECRET_KEY)) // CONFIGURACION COOKIES
+// CONFIGURACION MEMORY SESSION
+// app.use(session({secret: process.env.SESSION_KEY, resave: true, saveUninitialized: true, cookie: {maxAge: 60000}, }))
+// CONFIGURACION MONGO STORAGE
+app.use(session({
+    secret: process.env.SESSION_KEY, resave: true, saveUninitialized: true,
+    store: new MongoStore({ mongoUrl: process.env.MONGO_LINK, ttl: 10, }),
+}))
 
 // Rutas 
 // Vistas
@@ -42,6 +51,8 @@ app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/cookies', cookiesRouter)
+app.use('/api/sessions', sessionsRouter)
+
 // Middlewares posteriores a las rutas
 app.use(pathHandler) // Ultimo middleware
 

@@ -1,6 +1,6 @@
 import { Router } from "express"
-import {CartManagerDB} from '../../dao/CartManagerDB.js'
-import {ProductManagerDB} from '../../dao/ProductManagerDB.js'
+import {CartManagerDB} from '../../dao/mongo/CartManagerDB.js'
+import {ProductManagerDB} from '../../dao/mongo/ProductManagerDB.js'
 import mongoose from "mongoose"
 import { isValidObjectId }  from "mongoose"
 import { carritoModelo } from "../../dao/models/carrito.model.js"
