@@ -27,6 +27,13 @@ export class UserManagerDB {
             throw error
         }
     }
+    static async getUserById(id){
+        try {
+            return await User.findOne({_id: id})
+        } catch (error) {
+            throw error
+        }
+    }
 
     static async updateUser(id, aModificar){
         try {

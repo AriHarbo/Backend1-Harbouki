@@ -5,6 +5,7 @@ import { Server } from 'socket.io'
 import mongoose from 'mongoose'
 import cookieParser from "cookie-parser"
 import session from "express-session"
+import sessionFileStore from "session-file-store"
 import MongoStore from 'connect-mongo'
 import dotenv from 'dotenv';
 
@@ -24,8 +25,22 @@ dotenv.config();
 const port = process.env.PORT;
 const app = express();
 const httpServer = http.createServer(app);
-const io = new Server(httpServer);
 
+// Conectar con la DB
+const conectarDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_LINK);
+        console.log('DB Online...');
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    }
+};
+
+conectarDB();
+
+httpServer.listen(port, () => {
+    console.log(`Servidor escuchando en el puerto: ${port}`);
+});
 
 
 // handlebars
@@ -35,15 +50,21 @@ app.set('views', './src/views');
 
 // Middlewares anteriores a las rutas
 app.use(express.json());
+app.use(express.static('public'));
 app.use(morgan("dev"))
 app.use(cookieParser(process.env.SECRET_KEY)) // CONFIGURACION COOKIES
 // CONFIGURACION MEMORY SESSION
 // app.use(session({secret: process.env.SESSION_KEY, resave: true, saveUninitialized: true, cookie: {maxAge: 60000}, }))
 // CONFIGURACION MONGO STORAGE
 app.use(session({
-    secret: process.env.SESSION_KEY, resave: true, saveUninitialized: true,
-    store: new MongoStore({ mongoUrl: process.env.MONGO_LINK, ttl: 10, }),
-}))
+    secret: process.env.SESSION_KEY,
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+        mongoUrl: process.env.MONGO_LINK,
+        ttl: 60 * 60 * 24 // 24 hours
+    })
+}));
 
 // Rutas 
 // Vistas
@@ -53,32 +74,10 @@ app.use('/api/carts', cartsRouter);
 app.use('/api/cookies', cookiesRouter)
 app.use('/api/sessions', sessionsRouter)
 
+
 // Middlewares posteriores a las rutas
-app.use(pathHandler) // Ultimo middleware
-
 app.use(errorHandler) // Manejador de errores
-
-httpServer.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto: ${port}`);
-});
-
-
-// Conectar con la DB
-const conectarDB = async () => {
-    try {
-        await mongoose.connect(
-            process.env.MONGO_LINK,
-            {
-                dbName: 'ecommerce',
-            }
-        );
-        console.log('DB Online...');
-    } catch (error) {
-        console.log(`Error: ${error.message}`);
-    }
-};
-
-conectarDB();
+app.use(pathHandler) // Ultimo middleware
 
 
 /* WEB SOCKET CON FILESYSTEM

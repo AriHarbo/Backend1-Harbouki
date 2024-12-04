@@ -1,41 +1,44 @@
 import { Router } from "express";
 import { UserManagerDB } from "../../dao/mongo/UserMaganerDB.js";
-import isVerifyPassword from "../../middlewares/isVerifyPassword.mid.js";
+import isValidUser from "../../middlewares/isValidUser.mid.js";
 import requiredFields from "../../middlewares/requiredFields.mid.js";
 import verifyUserExists from "../../middlewares/verifyUserExists.mid.js";
+import createHash from "../../middlewares/createHash.mid.js";
+import verifyHash from "../../middlewares/verifyHash.mid.js";
+import passport from "../../middlewares/passport.mid.js"
 
 const sessionsRouter = Router();
 
-sessionsRouter.post("/register",
-    requiredFields,
-    verifyUserExists, 
-    async(req,res,next)=>{
-    const data = req.body;
+sessionsRouter.post("/register", passport.authenticate("register", {session: false}), register)
 
+sessionsRouter.post("/login", passport.authenticate("login",{session: false}),login)
+
+sessionsRouter.post("/singout", singout)
+
+sessionsRouter.post("/online", online)
+
+export default sessionsRouter;
+
+async function register(req,res,next){
     try {
-        
-        const newUser = await UserManagerDB.createUser(data)
+        const user = req.user
         const message = "USER REGISTERED"
-        return res.status(201).json({message, newUser})
+        return res.status(201).json({message, response: user._id})
     } catch (error) {
         return next(error)
     }
-})
+}
 
-sessionsRouter.post("/login",
-    isVerifyPassword, 
-    (req,res,next)=>{
+async function login(req,res,next){
     try {
-        req.session.online = true
-        req.session.email = req.body.email
-        const message = "USER LOGGED"
-        return res.status(200).json({message})
+        const user = req.user
+        return res.status(200).json({message: "USER LOGGED IN", user_id: user._id})
     } catch (error) {
         return next(error)
     }
-})
+}
 
-sessionsRouter.post("/singout", async(req,res,next)=>{
+function singout(req,res,next){
     try {
         const sessions = req.session
         req.session.destroy()
@@ -43,18 +46,17 @@ sessionsRouter.post("/singout", async(req,res,next)=>{
     } catch (error) {
         return next(error)
     }
-})
+}
 
-sessionsRouter.post("/online", (req,res,next)=>{
+async function online (req,res,next){
     try {
-        const sessions = req.session
-        if(sessions.online){
-            return res.status(200).json({ message: "USER IS ONLINE", sessions })
+        const { user_id } = req.session
+        const user = await UserManagerDB.getUserById(user_id)
+        if(req.session.user_id){
+            return res.status(200).json({ message: user.email.toUpperCase()+" IS ONLINE", online: true })
         }
-        return res.status(400).json({message: "INVALID CREDENTIALS"})
+        return res.status(400).json({message: "USER IS NOT ONLINE"})
     } catch (error) {
         return next(error)
     }
-})
-
-export default sessionsRouter;
+}

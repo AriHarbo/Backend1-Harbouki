@@ -71,3 +71,10 @@ router.get('/product/:pid', async  (req, res) =>{
         res.status(500).json({error:"Error interno del servidor"});
     }
 })
+
+router.get('/register', async (req, res)=>{
+    res.render('register')
+})
+router.get('/login', async (req, res)=>{
+    res.render('login')
+})
