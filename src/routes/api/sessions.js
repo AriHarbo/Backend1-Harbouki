@@ -6,6 +6,7 @@ import verifyUserExists from "../../middlewares/verifyUserExists.mid.js";
 import createHash from "../../middlewares/createHash.mid.js";
 import verifyHash from "../../middlewares/verifyHash.mid.js";
 import passport from "../../middlewares/passport.mid.js"
+import { verifyTokenUtil } from "../../utils/token.util.js";
 
 const sessionsRouter = Router();
 
@@ -15,7 +16,7 @@ sessionsRouter.post("/login", passport.authenticate("login",{session: false}),lo
 
 sessionsRouter.post("/singout", singout)
 
-sessionsRouter.post("/online", online)
+sessionsRouter.post("/online", onlineToken)
 
 export default sessionsRouter;
 
@@ -31,8 +32,9 @@ async function register(req,res,next){
 
 async function login(req,res,next){
     try {
-        const user = req.user
-        return res.status(200).json({message: "USER LOGGED IN", user_id: user._id})
+        const { token } = req.user
+        const opts = { maxAge: 60*60*24*7, httpOnly: true }
+        return res.status(200).cookie("token", token, opts).json({ message: "USER LOGGED IN" });
     } catch (error) {
         return next(error)
     }
@@ -40,9 +42,10 @@ async function login(req,res,next){
 
 function singout(req,res,next){
     try {
-        const sessions = req.session
-        req.session.destroy()
-        return res.status(200).json({message: "USER SIGNED OUT", sessions })
+        return res
+        .status(200)
+        .clearCookie("token")
+        .json({message: "USER SIGNED OUT" })
     } catch (error) {
         return next(error)
     }
@@ -60,3 +63,18 @@ async function online (req,res,next){
         return next(error)
     }
 }
+
+ async function onlineToken (req,res,next){
+    try {
+        const { token } = req.headers
+        const data = verifyTokenUtil(token)
+        const user = await UserManagerDB.getUserById(data.user_id)
+        if(user){
+            return res.status(200).json({ message: user.email.toUpperCase()+" IS ONLINE", online: true })
+        }
+        return res.status(400).json({message: "USER IS NOT ONLINE"})
+    } catch (error) {
+        return next(error)
+    }
+}
+

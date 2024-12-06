@@ -8,8 +8,7 @@ import session from "express-session"
 import sessionFileStore from "session-file-store"
 import MongoStore from 'connect-mongo'
 import dotenv from 'dotenv';
-
-
+dotenv.config();
 import {router as productsRouter} from './routes/api/products.js'
 import {router as cartsRouter} from'./routes/api/carts.js'
 import {router as viewsRouter} from './routes/views/viewsRouter.js'
@@ -19,7 +18,6 @@ import errorHandler from './middlewares/errorHandler.mid.js'
 import morgan from 'morgan'
 import sessionsRouter from './routes/api/sessions.js'
 
-dotenv.config();
 
 // Sevidor
 const port = process.env.PORT;

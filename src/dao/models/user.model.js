@@ -9,6 +9,7 @@ const schema = new Schema({
     role: {type: String, default: "USER", enum: ["USER", "ADMIN", "PREM"]},
     verifyUser: {type: Boolean, default: false},
     verifyCode: {type: String, default: ""},
+    isOnline: {type: Boolean, default: false},
 })
 
 const User = model(collection, schema)

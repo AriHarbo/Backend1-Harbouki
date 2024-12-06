@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { ProductManagerDB } from "../../dao/mongo/ProductManagerDB.js"
 import { isValidObjectId }  from "mongoose"
+import passport from "../../middlewares/passport.mid.js"
 
 
 export const  router=Router()
@@ -60,7 +61,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate("admin", { session: false }) , async (req, res) => {
     const { title, description, code, price, stock, category, thumbnails } = req.body;
 
     if (!title || !description || !code || !price || !stock || !category) {
@@ -86,7 +87,7 @@ router.post('/', async (req, res) => {
    
 });
 
-router.put('/:pid', async (req, res) => {
+router.put('/:pid', passport.authenticate("admin", { session: false }) ,async (req, res) => {
     let {pid} = req.params
     pid = pid.trim();
     if(!isValidObjectId(pid)){
@@ -104,7 +105,7 @@ router.put('/:pid', async (req, res) => {
     }
 });
 
-router.delete('/:pid', async (req, res) => {
+router.delete('/:pid', passport.authenticate("admin", { session: false }) ,async (req, res) => {
     let {pid} = req.params
     pid = pid.trim();
     if(!isValidObjectId(pid)){

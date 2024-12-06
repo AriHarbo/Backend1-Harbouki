@@ -1,3 +1,5 @@
+import { showNotification } from './notifications.js';
+
 const selector = document.querySelector("#login")
 
 selector.addEventListener("click", async ()=>{
@@ -12,9 +14,11 @@ selector.addEventListener("click", async ()=>{
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data),
         }
-        let response = await fetch("api/sessions/login", options)
+        let response = await fetch("http://localhost:8080/api/sessions/login", options)
         response = await response.json()
-        alert(response.message)
+        localStorage.setItem("token", response.token)
+        showNotification("You have logged in successfully!", "success")
+        window.location.href = "/home"
     } catch (error) {
         alert(error.message)
     }

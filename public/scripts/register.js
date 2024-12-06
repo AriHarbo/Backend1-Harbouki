@@ -16,6 +16,7 @@ selector.addEventListener("click", async ()=>{
         let response = await fetch("api/sessions/register", options)
         response = await response.json()
         alert(response.message)
+        window.location.href = "/login"
     } catch (error) {
         alert(error.message)
     }
